@@ -93,7 +93,7 @@ docs: create README.md file
 - Important imformation added
 ```
 
-##### Была изменена архитектура проекта (должно соответствовать [правилам архитектуры в данной ветке](#title1))
+##### Была изменена архитектура проекта
 ```
 chore(structure): reorganize UI structure
 
