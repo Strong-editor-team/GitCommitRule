@@ -64,7 +64,7 @@ type_of_change [(info/version)]: discription
 6. `perf([info])`
    - производительность
    - Изменение версии: Обычно не изменяется версия, если это не приводит к изменениям в API.
-   - Пример: Оптимизация кода для улучшения производительности.
+   - Пример: Оптимизация ассетов или сцены для улучшения производительности.
 
 7. `test([info])`
    - тесты
@@ -86,7 +86,12 @@ type_of_change [(info/version)]: discription
     - Изменение версии: Обычно не изменяется версия.
     - Пример: Рутинные задачи по очистке или изменению конфигураций (или архитектуры проекта).
 
-11. `revert`
+11. `resources([info])`
+- добавление новых ресурсов
+    - Изменение версии: версия не изменяется
+    - Пример: Добавлены иконки для эффектов (или добавлены новые 3д модели для предметов)
+
+12. `revert`
 	- отмена
     - Изменение версии: В зависимости от отмененного коммита, может потребоваться вернуть версию к предыдущей MAJOR или MINOR.
     - Пример: Возврат к предыдущей версии функционала.
@@ -102,7 +107,7 @@ docs: create README.md file
 
 #### Была изменена архитектура проекта
 ```
-chore(structure): reorganize UI structure
+chore(UI): reorganize UI structure
 
 - Added prefab animation button.
 - Rename folder Gradient to Shaders.
@@ -111,7 +116,20 @@ chore(structure): reorganize UI structure
 - Move AnimateButton to Backend/UI
 ```
 
-### Более подробное объяснение разницы между `style`, `perf`, `refactor`, `fix`, `chore` и `feat`
+### Объединение несколько типов коммитов
+Иногда бывают случаи, что в одном коммите нужно и добавить новый функционал, и пофиксить старый. В таком случае можно объединить типы коммитов таким образом:
+```
+feat([info]) && fix([info])
+
+feat: [the information is short]
+// addition information (scripts)
+
+fix: [the information is short]
+// addition information (scripts)
+```
+Но я крайне не рекомендую объединять другие коммиты, кроме пары feat && fix, лучше разбейте изменения на несколько коммитов.
+
+### Более подробное объяснение разницы между `style`, `perf`, `refactor`, `fix`, `chore`, и `feat`
 * Добавили новый функционал (именно функционал, например, инвентарь, магазин, какая-то новая система или новая функция в существующий системе. В этом случае ставится `feat`
 ```
 feat(interact system): add new interact type
@@ -131,4 +149,40 @@ chore(UI): reorganize UI structure
 
 - move Art/UI/Scripts to Backend/Script/UI
 - updated links on UI scripts on MainMenu scene
+```
+
+* Отрефакторен код или изменена логика каких-то отдельных элементов, изменение которых некритично. В этих случаях используется `refactor `. Например, замена `UnityEvent` на `event Action` или функция теперь возвращает не `object`, а `string` (повышение типа, т.к. `object` является родительским типом для `string`). Также рефакторинг подразумевает под собой изменение имени объектов/типов)
+```
+refactor(effects): change property Value on method GetValue()
+
+- updated links on property Value
+```
+
+* Улучшена производительность игры фронтенда (спрайты, модели). В этом случае применяется `perf`. Например, улучшение теней для поднятия фпс, упрощение качества спрайтов.
+
+ВНИМАНИЕ! Если улучшена производительность со стороны бэкенда, то используйте
+```
+refactor(optimization): replacing lists with arrays
+
+// optimizated scripts
+```
+ВНИМАНИЕ! Если добавлен скрипт на оптимизацию чего-либо, то используйте
+```
+feat(optimization): add chunk manager
+
+// new scripts for optimization
+```
+
+Пример использования `perf`:
+```
+perf(butch): the number of butch on the gameplay scene has been reduced
+
+// addition information
+```
+
+* Исправлены баги в игре или ошибки компиляции. В таком случае используется `fix`. При фиксе багов/ошибок логика поведения может некритично поменяться (но лучше использовать совместно с `refactor`), но добавление нового функционала запрещается. При фиксе ошибок в описании не обязательно указывать `fix ...`, т.к. fix уже указался в типе коммита. Например:
+```
+fix(tab menu): logic of unsubscribing from input system events
+
+// fixed scripts
 ```
