@@ -1,6 +1,13 @@
 # GitCommitRule
 Правила создания коммитов с перечислением типов коммитов
 
+## Внимание, основные папки:
+* **Assets/__GAME__/Art** - указывается как **Art** (визуал)
+* **Assets/__GAME__/Backend** - указывается как **Backend** (бэк)
+* **Assets/Plugins** - указывается как **Plugins** (плагины)
+* **Assets/__GAME__/Scenes** - указывается как **Scenes** (сцены)
+* **Assets/__GAME__/Prefabs** - указывается как **Prefabs** (префабы)
+
 ### Основной синтаксис коммита
 ```
 type_of_change [(info/version)]: discription
@@ -39,7 +46,7 @@ type_of_change [(info/version)]: discription
    - Изменение версии: Увеличение PATCH.
    - Пример: Исправление ошибки, не влияющее на функциональность.
 
-3. `docs`
+3. `docs([document])`
    - документация
    - Изменение версии: Обычно не изменяется версия.
    - Пример: Обновление README или документации без изменений в функционале.
@@ -64,7 +71,7 @@ type_of_change [(info/version)]: discription
    - Изменение версии: Обычно не изменяется версия.
    - Пример: Добавление или изменение тестов без изменений в коде приложения.
 
-8. `build([version])`
+8. `build([info])`
    - сборка
    - Изменение версии: Можно увеличить PATCH, если это связано с настройками сборки, но обычно не обязательно.
    - Пример: Обновление конфигурации сборки или зависимостей.
@@ -84,16 +91,16 @@ type_of_change [(info/version)]: discription
     - Изменение версии: В зависимости от отмененного коммита, может потребоваться вернуть версию к предыдущей MAJOR или MINOR.
     - Пример: Возврат к предыдущей версии функционала.
 
-#### Примеры:
+### Примеры:
 
-##### Был создан файл README.md с какой-то важной информацией
+#### Был создан файл README.md с какой-то важной информацией
 ```
 docs: create README.md file
 
 - Important imformation added
 ```
 
-##### Была изменена архитектура проекта
+#### Была изменена архитектура проекта
 ```
 chore(structure): reorganize UI structure
 
@@ -102,4 +109,25 @@ chore(structure): reorganize UI structure
 - Reorganize folder Video.
 - Rename CustomButton to AnimateButton
 - Move AnimateButton to Backend/UI
+```
+
+### Более подробное объяснение разницы между `style`, `perf`, `refactor`, `fix`, `chore` и `feat`
+* Добавили новый функционал (именно функционал, например, инвентарь, магазин, какая-то новая система или новая функция в существующий системе. В этом случае ставится `feat`
+```
+feat(interact system): add new interact type
+
+- added interact type on right mouse button (RMB)
+- refactored logic interact in InteractController.cs
+```
+
+* Поменяли расположение кнопок на сцене, дизайн префаба или изменена скорость анимации (или сама анимация) в коде (DOTween)/на сцене. В этом случае используется `style`
+```
+style(main menu): change speed animation switch tab
+```
+
+* Поменяли расположение папок/объектов в проекте, возможно затронуто обновление ссылок на эти папки/объекты с скриптах или на сцене. В этом случае необходимо использовать `chore`. В скобках в качестве информации необходимо указать область, которая была затронута (Art, Backend, Plugins, а также подкатегории и другие области)
+```
+chore(UI): reorganize UI structure
+
+- move Art/UI/Scripts to Backend/Script/UI
 ```
