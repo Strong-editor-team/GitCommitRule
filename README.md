@@ -14,8 +14,8 @@ type(scope): subject
 
 [
 // list of changes
-- Change 1.
-- Change 2.
+- change 1
+- change 2
 - ...
 ]
 ```
@@ -29,18 +29,26 @@ type(scope): subject
 Запрещено использовать само название типа (например, в типе fix запрещено писать слово fix).
 Без точки в конце.
 
-#### Правила оформления тела
-В теле коммита должно содержаться более подробное описание каждого из изменений в этом коммите.
+#### Правила времен для коммитов
+ВСЕ части коммита указывается только в Present Simple, где глагол чаще всего выносится на первое место. Примеры:
 
-// TODO
+#### Правила оформления тела
+В теле коммита должно содержаться более подробное описание каждого из изменений в этом коммите. Элемент начинается с `- ` и с маленькой буквы, в конце точки нет, время Present Simple.
+```
+chore(structure): reorganize assets and packages
+
+- add important information
+- delete unused assets
+- move packages to Assets/Packages
+```
 
 ### Типы коммитов
 | Тип | Версия (SemVer)	| Описание | Правильный пример |
 | :--- | :---: | :---: | ---: |
-| feat |	MINOR |	Новый функционал для игрока или разработчика. |	feat(input): add gamepad support |
+| feat |	MAJOR/MINOR |	Новый функционал для игрока или разработчика. |	feat(input): add gamepad support |
 | fix |	PATCH |	Исправление ошибки/бага. |	fix(ui): resolve overlap in main menu |
 | docs |	no |	Изменения в документации (README, Wiki). |	docs(readme): describe install process |
-| edit |	no |	Универсальный тип для изменения небольших частей проекта, которые никак не влияют на оптимизацию, архитектуру и логику (изменение скорости игрока, обновление дизайна сцены) |	edit(style): redesign main menu scene |
+| edit |	no |	Универсальный тип для изменения файлов-ассетов, которые никак не влияют на оптимизацию, архитектуру и логику (изменение скорости игрока, обновление дизайна сцены) |	edit(style): redesign main menu scene |
 | refactor |	no |	Изменение кода без смены логики (чистка, упрощение). |	refactor(phys): simplify raycast logic |
 | perf |	no* |	Оптимизация скорости работы или потребления памяти. |	perf(gfx): reduce draw calls for trees |
 | test |	no |	Добавление или исправление тестов. |	test(save): add unit test for JSON parser |
@@ -58,18 +66,18 @@ type(scope): subject
 ```
 docs(readme): create README.md file
 
-- Important imformation added
+- add important information
 ```
 
 #### Была изменена архитектура проекта
 ```
 chore(UI): reorganize UI structure
 
-- Added prefab animation button.
-- Rename folder Gradient to Shaders.
-- Reorganize folder Video.
-- Rename CustomButton to AnimateButton
-- Move AnimateButton to Backend/UI
+- add prefab animation button
+- rename folder Gradient to Shaders
+- reorganize folder Video
+- rename CustomButton to AnimateButton
+- move AnimateButton to Backend/UI
 ```
 
 ### Объединение несколько типов коммитов
@@ -77,63 +85,78 @@ chore(UI): reorganize UI structure
 ```
 feat(scope) && fix(scope)
 
-feat: subject
+feat: subject 1
 [ feat commit body ]
 
-fix: subject
+fix: subject 2
 [ fix commit body ]
 ```
-Но крайне не рекомендуется объединять другие коммиты, кроме пары feat && fix, лучше разбейте изменения на несколько коммитов.
+```
+chore(scope) && edit(scope)
+
+chore: subject 1
+[ chore commit body ]
+
+edit: subject 2
+[ edit commit body ]
+```
+
+Но крайне не рекомендуется объединять другие коммиты, кроме пары `feat && fix` или `chore && edit`, лучше разбейте изменения на несколько коммитов.
 
 ### Более подробное объяснение разницы между `edit`, `perf`, `refactor`, `fix`, `chore`, и `feat`
 * Добавили новый функционал (именно функционал, например, инвентарь, магазин, какая-то новая система или новая функция в существующий системе. В этом случае ставится `feat`
 ```
 feat(interact system): add new interact type
 
-- added interact type on right mouse button (RMB)
-- refactored logic interact in InteractController.cs
+- add interact type on right mouse button (RMB)
+- refactor logic interact in InteractController.cs
 ```
 
 * Поменяли расположение объектов на сцене, стиль и объекты в префабе или изменена скорость анимации/объекта (или сама анимация) в коде (DOTween)/на сцене. В этом случае используется `edit`
 ```
-edit(animation): change speed animation switch tab
+edit(animation): change switch tab animation speed
 ```
 
-* Поменяли расположение папок в проекте, возможно затронуто обновление ссылок на эти папки/объекты с скриптах или на сцене. В этом случае необходимо использовать `chore`. В скобках в качестве информации необходимо указать область, которая была затронута (Art, Backend, Plugins, а также можно подкатегории и другие области)
+* Поменяли расположение папок в проекте, возможно затронуто обновление ссылок на эти папки/объекты с скриптах или на сцене. В этом случае необходимо использовать `chore`. В скобках в качестве информации необходимо указать область, которая была затронута (Art, Backend, Plugins, UI и другие области)
 ```
 chore(UI): reorganize UI structure
 
 - move Art/UI/Scripts to Backend/Script/UI
-- updated links on UI scripts on MainMenu scene
+- update UI script references in MainMenu scene
 ```
 
-* Отрефакторен код или изменена логика каких-то отдельных элементов, изменение которых некритично. В этих случаях используется `refactor`. Например, замена `UnityEvent` на `event Action` или функция теперь возвращает не `object`, а `string` (повышение типа, т.к. `object` является родительским типом для `string`). Также рефакторинг подразумевает под собой изменение имени объектов/типов)
+* Отрефакторен код или изменена логика каких-то отдельных элементов, изменение которых некритично. В этих случаях используется `refactor`. Например, замена `UnityEvent` на `event Action`. Также рефакторинг подразумевает под собой изменение имени объектов/типов)
 ```
 refactor(effects): change property Value on method GetValue()
 
-- updated links on property Value
+- update references on property Value
 ```
 
-* Улучшена производительность игры с использованием ранее существующих файлов/скриптов. В этом случае применяется `perf`. Например, улучшение теней для поднятия фпс, упрощение качества спрайтов, улучшение скорости работы с памятью.
+* Улучшение производительности без добавления новой функциональности. Если вы изменяете существующие файлы/скрипты исключительно для повышения скорости работы или снижения потребления памяти, используйте тип `perf`.
 ```
-perf(memory): replacing lists with arrays
-
-// optimizated scripts
+perf(memory): replace lists with arrays
 ```
 ```
-perf(butch): the number of butch on the gameplay scene has been reduced
-
-// addition information
+perf(bench): reduce draw calls in gameplay scene
 ```
-
-ВНИМАНИЕ! Если ТОЛЬКО добавлен скрипт (и обновлены ссылки на сцене на этот скрипт) на оптимизацию чего-либо, то используйте
 ```
-feat(optimization): add chunk manager
-
-// new scripts for optimization
+perf(shadows): optimize shadow distance
 ```
 
-* Исправлены баги в игре или ошибки компиляции. В таком случае используется `fix`. При фиксе багов/ошибок логика поведения может некритично поменяться (но лучше использовать совместно с `refactor`), но добавление нового функционала запрещается.
+* Добавление системы, которая одновременно реализует новую механику и повышает производительность.
+Например, chunk manager может как обеспечивать бесшовную подгрузку мира (новая механика), так и оптимизировать рендеринг. В таких случаях решение принимается по главной цели:
+
+  * Если основная задача — реализовать новую игровую механику (например, бесконечную генерацию мира), используйте `feat`, даже если система также улучшает производительность.
+
+  * Если же механика уже существовала, и вы перерабатываете её исключительно для оптимизации (ускорения работы, уменьшения лагов), используйте `perf`.
+```
+perf(world): optimize chunk loading for existing streaming
+```
+
+* Также есть случаи, когда добавляется система и для оптимизации, и для какой-то механики, например `chunk manager`. В этом случае лучше поставить `feat`, потому что фактически это добавление нового функционала.<br>
+Если изначально изменение не было задумано как какой-то дополнительный функционал, то используйте `perf` 
+
+* Исправлены баги в игре или ошибки компиляции. В таком случае используется `fix`. При фиксе багов/ошибок логика поведения может некритично поменяться (но лучше использовать совместно с `refactor`), но добавление нового функционала нежелательно (используется с `feat` принудительно, если такое имеется).
 
 ## Важные уточнения
 1. **_Как избежать тавтологии в_** `fix` (и других типах). Вместо того чтобы писать `fix(enemy): fix enemy bug`, используйте глаголы-синонимы, описывающие результат:
@@ -145,10 +168,12 @@ feat(optimization): add chunk manager
 
 2. **_Масштабируемый_** `Scope`. Не пишите название файла или слишком подробно.<br>
 НЕЛЬЗЯ: `fix(PlayerControllerUpdate): ...` (Слишком детально)<br>
-НУЖНО: `fix(player): ...` (Кратко и понятно)
+НУЖНО: `fix(player): ...` (Кратко и понятно)<br>
+Допускается использовать `player movement`, `main scene` и так далее
 
 3. **_Breaking Changes_** (Критическое изменение). Если изменение ломает проект или старые сохранения, добавьте восклицательный знак после типа и опишите причину в теле коммита. Это увеличивает **MAJOR** (после релиза) или **MINOR** (до релиза) версию.
 Пример:
 ```
 feat(save)!: migrate from binary to JSON storage
 ```
+4. **_Использование AI_**. Если затрудняетесь подобрать тип коммита и перечень значимых изменений, то опишите все изменения нейросети и получите отформатированный вариант, но проследите, чтобы коммит соответствовал всем вышеперечисленным правилам.
