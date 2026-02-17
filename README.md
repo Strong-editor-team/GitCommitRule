@@ -19,16 +19,14 @@
 
 #### Основной синтаксис коммита
 ```
-type_of_change [(scope)]: discription
+type(scope): subject 
 
 [
-// list change
-- Element 1.
-- Element 2.
+// list of changes
+- Change 1.
+- Change 2.
 - ...
 ]
-
-[Important change]
 ```
 
 
