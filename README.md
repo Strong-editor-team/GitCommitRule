@@ -75,13 +75,13 @@ chore(UI): reorganize UI structure
 ### Объединение несколько типов коммитов
 Иногда бывают случаи, что в одном коммите нужно и добавить новый функционал, и пофиксить старый. В таком случае можно объединить типы коммитов таким образом:
 ```
-feat([info]) && fix([info])
+feat(scope) && fix(scope)
 
-feat: [the information is short]
-// addition information (scripts)
+feat: subject
+[ feat commit body ]
 
-fix: [the information is short]
-// addition information (scripts)
+fix: subject
+[ fix commit body ]
 ```
 Но крайне не рекомендуется объединять другие коммиты, кроме пары feat && fix, лучше разбейте изменения на несколько коммитов.
 
