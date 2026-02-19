@@ -55,7 +55,7 @@ chore(structure): reorganize assets and packages
 | feat |	MAJOR/MINOR |	Новый функционал для игрока или разработчика. |	feat(input): add gamepad support |
 | fix |	PATCH |	Исправление ошибки/бага. |	fix(ui): resolve overlap in main menu |
 | docs |	no |	Изменения в документации (README, Wiki). |	docs(readme): describe install process |
-| edit |	no |	Универсальный тип для изменения файлов-ассетов, которые никак не влияют на оптимизацию, архитектуру и логику (изменение скорости игрока, обновление дизайна сцены) |	edit(style): redesign main menu scene |
+| tweak |	no |	Универсальный тип для изменения файлов-ассетов, которые никак не влияют на оптимизацию, архитектуру и логику (изменение скорости игрока, обновление дизайна сцены) |	tweak(style): redesign main menu scene |
 | refactor |	no |	Изменение кода без смены логики (чистка, упрощение). |	refactor(phys): simplify raycast logic |
 | perf |	no* |	Оптимизация скорости работы или потребления памяти. |	perf(gfx): reduce draw calls for trees |
 | test |	no |	Добавление или исправление тестов. |	test(save): add unit test for JSON parser |
@@ -99,18 +99,18 @@ fix: subject 2
 [ fix commit body ]
 ```
 ```
-chore(scope) && edit(scope)
+chore(scope) && tweak(scope)
 
 chore: subject 1
 [ chore commit body ]
 
-edit: subject 2
-[ edit commit body ]
+tweak: subject 2
+[ tweak commit body ]
 ```
 
-Но крайне не рекомендуется объединять другие коммиты, кроме пары `feat && fix` или `chore && edit`, лучше разбейте изменения на несколько коммитов.
+Но крайне не рекомендуется объединять другие коммиты, кроме пары `feat && fix` или `chore && tweak`, лучше разбейте изменения на несколько коммитов.
 
-### Более подробное объяснение разницы между `edit`, `perf`, `refactor`, `fix`, `chore`, и `feat`
+### Более подробное объяснение разницы между `tweak`, `perf`, `refactor`, `fix`, `chore`, и `feat`
 * Добавили новый функционал (именно функционал, например, инвентарь, магазин, какая-то новая система или новая функция в существующий системе. В этом случае ставится `feat`
 ```
 feat(interact system): add new interact type
@@ -119,9 +119,9 @@ feat(interact system): add new interact type
 - refactor logic interact in InteractController.cs
 ```
 
-* Поменяли расположение объектов на сцене, стиль и объекты в префабе или изменена скорость анимации/объекта (или сама анимация) в коде (DOTween)/на сцене. В этом случае используется `edit`
+* Поменяли расположение объектов на сцене, стиль и объекты в префабе или изменена скорость анимации/объекта (или сама анимация) в коде (DOTween)/на сцене. В этом случае используется `tweak`
 ```
-edit(animation): change switch tab animation speed
+tweak(animation): change switch tab animation speed
 ```
 
 * Поменяли расположение папок в проекте, возможно затронуто обновление ссылок на эти папки/объекты с скриптах или на сцене. В этом случае необходимо использовать `chore`. В скобках в качестве информации необходимо указать область, которая была затронута (Art, Backend, Plugins, UI и другие области)
